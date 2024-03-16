@@ -79,6 +79,7 @@ obj/
 Include/
 Modules/
 Scripts/
+myenv/
 
 # Spyder project settings
 .spyderproject
