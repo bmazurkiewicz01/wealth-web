@@ -5,6 +5,9 @@ from django.shortcuts import render
 from .forms import CurrencyConversionForm
 import requests
 
+def home(request):
+    return render(request, 'home.html')
+
 def get_bitcoin_price(request):
     url = 'https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd'
     response = requests.get(url)

@@ -19,6 +19,8 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
+    path('', views.home, name='home'),
+    path('home/', views.home, name='home'),
     path('admin/', admin.site.urls),
     path('btcusd/', views.get_bitcoin_price, name='btcusd'),
     path('convert/', views.convert_currency, name='convert_currency'),
