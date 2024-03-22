@@ -1,21 +1,38 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Currency Converter</title>
-</head>
-<body>
-    <h1>Currency Converter</h1>
-    <!-- convert_currency.html -->
-    <form action="{% url 'convert_currency' %}" method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Convert</button>
-    </form>
+<!-- convert_currency.html -->
+{% extends "includes/base.html" %}
+{% load static %}
 
+{% block pageStyle %}{% static 'css/convert.css' %}{% endblock %}
+{% block title %}Home - Wealth Web{% endblock %}
 
-    {% if converted_amount %}
-        <h2>Converted Amount: {{ converted_amount }}</h2>
-    {% endif %}
-</body>
-</html>
+{% block content %}
+    <div class="converter">
+        <h1>Currency Converter</h1>
+        <form action="{% url 'convert_currency' %}" method="post" class="currency-converter-form">
+            {% csrf_token %}
+            <div class="form-group">
+                <div class="input-group">
+                    {{ form.amount.label_tag }} 
+                    {{ form.amount }}
+                </div>
+                <div class="input-group">
+                    {{ form.from_currency.label_tag }} 
+                    {{ form.from_currency }}
+                </div>
+                <div class="input-group">
+                    {{ form.to_currency.label_tag }} 
+                    {{ form.to_currency }}
+                </div>  
+            </div>
+            <div class="button-div">
+                <button type="submit" class="submit-button">Convert</button>
+            </div>
+        </form>
+        {% if converted_amount %}
+        <div class="conversion-result">
+            <h2>{{ initial_amount }} {{ from_currency }} = {{ converted_amount }} {{ to_currency }}</h2>
+        </div>
+        {% endif %}
+    </div>
+
+{% endblock %}

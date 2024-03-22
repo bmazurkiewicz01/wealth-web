@@ -1,48 +1,22 @@
 <!-- templates/home.html -->
-
+{% extends "includes/base.html" %}
 {% load static %}
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Joan&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
-    <link rel="icon" href="{% static 'images/favicon.ico' %}" type="image/x-icon">
-    <link type="text/css" rel="stylesheet" href="{% static 'css/style.css' %}">
-    <script src="{% static 'js/script.js' %}" defer></script>
-    <title>Wealth Web</title>
-</head>
-<body>
-    <header>
-        <nav>
-            <ul>
-                <li><a href="/"><img src="{% static 'images/logo_without_bg.png' %}" alt="Wealth Web logo"></a></li>
-                <li><a href="/" class="nav-item">Home</a></li>
-                <li><a href="/portfolio" class="nav-item">Portfolio</a></li>
-                <li><a href="/about" class="nav-item">About</a></li>
-                <li><a href="/login" class="nav-item">Login</a></li>
-                <li><a class="grn-button" href="/register">Register</a></li>
-            </ul>
-        </nav>
-    </header>
-    <main>
-        <div class="container">
-            <section class="hero-section">
-                <div id="hero-header">
-                    <h1>Cultivate Your Wealth:</h1>
-                    <h1>Expert Investment Portfolio Management</h1>
-                    <a class="grn-button" href="/about">Learn more about us</a>
-                </div>
-                <img src="{% static 'images/hero-image.png' %}" alt="Hero image">
-            </section>
-        </div>
-    </main>
+{% block pageStyle %}{% static 'css/home.css' %}{% endblock %}
+{% block title %}Home - Wealth Web{% endblock %}
 
-    <footer>
-        <p>&copy; 2024 Wealth Web</p>
-    </footer>
-</body>
-</html>
+{% block content %}
+    <div class="container">
+        <section class="hero-section">
+            <div id="hero-header">
+                <h1>Cultivate Your Wealth:</h1>
+                <h1>Expert Investment Portfolio Management</h1>
+                <div>
+                    <a class="grn-button" href="/about">Learn more about us</a>
+                    <a class="grn-button" href="/convert">Try it</a>
+                </div>
+            </div>
+            <img src="{% static 'images/hero-image.png' %}" alt="Hero image">
+        </section>
+    </div>
+{% endblock %}

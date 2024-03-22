@@ -1,0 +1,58 @@
+/* static/css/style.css */
+
+
+
+main {
+    background-image: linear-gradient(0deg, rgba(31, 34, 35, 0.92) -6.02%, rgba(24, 26, 27, 0) 112.56%);
+    flex-grow: 1;
+}
+
+.container
+{
+    width: 100%;
+    margin: 0 auto;
+    padding-top: 32px;
+    max-width: 1170px;
+}
+
+.hero-section
+{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding-top: 32px;
+}
+
+.hero-header
+{
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.hero-section h1
+{
+    font-size: 3rem;
+    font-weight: 700;
+    line-height: normal;
+    max-width: 750px;
+    margin: 0;
+}
+
+.hero-section a {
+    display: inline-block;
+    margin-top: 32px;
+}
+
+.hero-section img
+{
+    width: 100%;
+    height: auto;
+    margin-top: 3rem;
+    padding: 0;
+}

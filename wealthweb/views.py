@@ -35,33 +35,30 @@ def get_bitcoin_price(request):
     
     return JsonResponse({'BTC to USD': btc_to_usd})
 
-# def convert_currency(request):
-#     if request.method == 'POST':
-#         form = CurrencyConversionForm(request.POST)
-#         if form.is_valid():
-#             amount = form.cleaned_data['amount']
-#             from_currency = form.cleaned_data['from_currency'].upper()
-#             to_currency = form.cleaned_data['to_currency'].upper()
+def convert_currency(request):
+    if request.method == 'POST':
+        form = CurrencyConversionForm(request.POST)
+        if form.is_valid():
+            amount = form.cleaned_data['amount']
+            from_currency = form.cleaned_data['from_currency'].upper()
+            to_currency = form.cleaned_data['to_currency'].upper()
             
-#             api_key = settings.EXCHANGE_RATE_API_KEY
-#             url = f"https://v6.exchangerate-api.com/v6/{api_key}/pair/{from_currency}/{to_currency}/{amount}"
-#             response = requests.get(url)
+            api_key = settings.EXCHANGE_RATE_API_KEY
+            url = f"https://v6.exchangerate-api.com/v6/{api_key}/pair/{from_currency}/{to_currency}/{amount}"
+            response = requests.get(url)
             
-#             if response.status_code == 200:
-#                 data = response.json()
-#                 conversion_result = data.get('conversion_result', 'Error fetching conversion rate')
-#                 # For simplicity, we'll render the result on the same page
-#                 return render(request, 'conversion_result.html', {
-#                     'form': form,
-#                     'conversion_result': conversion_result,
-#                     'from_currency': from_currency,
-#                     'to_currency': to_currency
-#                 })
-#             else:
-#                 # Handle errors or invalid API response
-#                 conversion_result = 'Error: Unable to fetch conversion rate'
-#     else:
-#         form = CurrencyConversionForm()  # Instantiate an empty form for GET requests
-    
-#     # Render the initial form page
-#     return render(request, 'convert_currency.html', {'form': form})
+            if response.status_code == 200:
+                data = response.json()
+                conversion_result = data.get('conversion_result', 'Error fetching conversion rate')
+                return render(request, 'convert_currency.html', {
+                    'form': form,
+                    'initial_amount': amount,
+                    'converted_amount': conversion_result,
+                    'from_currency': from_currency,
+                    'to_currency': to_currency
+                })
+            else:
+                conversion_result = 'Error: Unable to fetch conversion rate'
+    else:
+        form = CurrencyConversionForm() 
+    return render(request, 'convert_currency.html', {'form': form})

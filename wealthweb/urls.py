@@ -26,5 +26,5 @@ urlpatterns = [
 
     path('admin/', admin.site.urls),
     path('btcusd/', views.get_bitcoin_price, name='btcusd'),
-    # path('convert/', views.convert_currency, name='convert_currency'),
+    path('convert/', views.convert_currency, name='convert_currency'),
 ]

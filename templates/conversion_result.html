@@ -1,8 +1,0 @@
-<!-- conversion_result.html -->
-<h2>Conversion Result</h2>
-{% if conversion_result %}
-    <p>{{ amount }} {{ from_currency }} is approximately {{ conversion_result }} {{ to_currency }}.</p>
-{% else %}
-    <p>Conversion error or invalid input.</p>
-{% endif %}
-<a href="{% url 'convert_currency' %}">Convert another amount</a>
