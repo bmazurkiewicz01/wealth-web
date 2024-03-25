@@ -6,7 +6,17 @@
         <li><a href="/" class="nav-item">Home</a></li>
         <li><a href="/portfolio" class="nav-item">Portfolio</a></li>
         <li><a href="/about" class="nav-item">About</a></li>
-        <li><a href="/login" class="nav-item">Login</a></li>
-        <li><a class="grn-button" href="/register">Register</a></li>
+
+        {% if user.is_authenticated %}
+        <li>
+            <form action="{% url 'logout' %}" method="post">
+                {% csrf_token %}
+                <button class="grn-button" type="submit">Logout</button>
+            </form>   
+        </li>
+        {% else %}
+            <li><a href="/login" class="nav-item">Login</a></li>
+            <li><a class="grn-button" href="/register">Register</a></li>
+        {% endif %}
     </ul>
 </nav>

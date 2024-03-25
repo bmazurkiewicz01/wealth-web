@@ -1,0 +1,28 @@
+{% extends 'includes/base.html' %}
+{% load static %}
+
+{% block pageStyle %}{% static 'css/login.css' %}{% endblock %}
+{% block title %}Login - Wealth Web{% endblock %}
+
+{% block content %}
+    <div class="login-form">
+        <h1>Login</h1>
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                {% for field in form %}
+                <div class="input-group">
+                    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                    {{ field }}
+                    {% for error in field.errors %}
+                        <div class="alert alert-danger">{{ error }}</div>
+                    {% endfor %}
+                </div>
+                {% endfor %}
+            </div>
+            <div class="button-div">
+                <button type="submit" class="submit-button">Login</button>
+            </div>
+        </form>
+    </div>
+{% endblock %}

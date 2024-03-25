@@ -3,10 +3,23 @@ from django.conf import settings
 from django.shortcuts import render, redirect
 from .forms import CurrencyConversionForm
 from .forms import UserRegistrationForm
+from django.contrib.auth.views import LoginView
+from django.contrib.auth.decorators import login_required
 import requests
+
+
+class LoginView(LoginView):
+    template_name = 'login.html'
 
 def home_view(request):
     return render(request, 'home.html')
+
+@login_required
+def portfolio_view(request):
+    return render(request, 'portfolio.html')
+
+def about_view(request):
+    return render(request, 'about.html')
 
 def register_view(request):
     form = UserRegistrationForm()
@@ -22,20 +35,7 @@ def register_view(request):
     context = {'form': form}
     return render(request, 'register.html', context=context)
 
-def login_view(request):    
-    return render(request, 'login.html')
-
-def get_bitcoin_price(request):
-    url = 'https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd'
-    response = requests.get(url)
-    
-    data = response.json()
-    
-    btc_to_usd = data.get('bitcoin', {}).get('usd', 'Unavailable')
-    
-    return JsonResponse({'BTC to USD': btc_to_usd})
-
-def convert_currency(request):
+def convert_currency_view(request):
     if request.method == 'POST':
         form = CurrencyConversionForm(request.POST)
         if form.is_valid():
@@ -62,3 +62,13 @@ def convert_currency(request):
     else:
         form = CurrencyConversionForm() 
     return render(request, 'convert_currency.html', {'form': form})
+
+def get_bitcoin_price(request):
+    url = 'https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd'
+    response = requests.get(url)
+    
+    data = response.json()
+    
+    btc_to_usd = data.get('bitcoin', {}).get('usd', 'Unavailable')
+    
+    return JsonResponse({'BTC to USD': btc_to_usd})

@@ -16,15 +16,19 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.contrib.auth.views import LogoutView
 from . import views
 
 urlpatterns = [
     path('', views.home_view, name='home'),
     path('home/', views.home_view, name='home'),
+    path('portfolio/', views.portfolio_view, name='portfolio'),
+    path('about/', views.about_view, name='about'),
+    path('login/', views.LoginView.as_view(), name='login'),
     path('register/', views.register_view, name='register'),
-    path('login/', views.login_view, name='login'),
+    path('logout/', LogoutView.as_view(), name='logout'),
+    path('convert/', views.convert_currency_view, name='convert_currency'),
 
     path('admin/', admin.site.urls),
     path('btcusd/', views.get_bitcoin_price, name='btcusd'),
-    path('convert/', views.convert_currency, name='convert_currency'),
 ]

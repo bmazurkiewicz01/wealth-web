@@ -1,0 +1,14 @@
+{% extends 'includes/base.html' %}
+{% load static %}
+
+{% block pageStyle %}{% static 'css/portfolio.css' %}{% endblock %}
+{% block title %}Login - Wealth Web{% endblock %}
+
+{% block content %}
+    {% if user.is_authenticated %}
+        <div style="display: flex; justify-content: center; flex-direction: column; align-items: center;">
+            <h1>Hello, {{ user.username }}!</h1>
+            <h2>This is a portfolio view</h2>
+        </div>
+    {% endif %}
+{% endblock %}
