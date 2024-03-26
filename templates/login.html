@@ -2,6 +2,7 @@
 {% load static %}
 
 {% block pageStyle %}{% static 'css/login.css' %}{% endblock %}
+{% block customScript %}{% static 'js/login.js' %}{% endblock %}
 {% block title %}Login - Wealth Web{% endblock %}
 
 {% block content %}
@@ -21,7 +22,7 @@
                 {% endfor %}
             </div>
             <div class="button-div">
-                <button type="submit" class="submit-button">Login</button>
+                <button type="submit" class="submit-button button-loading-screen">Login</button>
             </div>
         </form>
     </div>

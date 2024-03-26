@@ -5,11 +5,27 @@ from .forms import CurrencyConversionForm
 from .forms import UserRegistrationForm
 from django.contrib.auth.views import LoginView
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import AuthenticationForm
 import requests
 
 
 class LoginView(LoginView):
     template_name = 'login.html'
+    form_class = AuthenticationForm
+
+    def form_valid(self, form):
+        # Perform the login operation
+        super().form_valid(form)
+        if self.request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+            return JsonResponse({'success': True})
+        else:
+            return redirect(self.get_success_url())
+
+    def form_invalid(self, form):
+        if self.request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+            return JsonResponse({'success': False, 'errors': form.errors.as_json()}, status=400)
+        else:
+            return super().form_invalid(form)
 
 def home_view(request):
     return render(request, 'home.html')
