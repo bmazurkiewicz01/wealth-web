@@ -14,7 +14,6 @@ class LoginView(LoginView):
     form_class = AuthenticationForm
 
     def form_valid(self, form):
-        # Perform the login operation
         super().form_valid(form)
         if self.request.headers.get('X-Requested-With') == 'XMLHttpRequest':
             return JsonResponse({'success': True})
