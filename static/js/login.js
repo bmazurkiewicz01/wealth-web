@@ -60,9 +60,46 @@ function startAnimation() {
     }, interval);
 }
 
-function displayServerErrors(errors) {
-    console.log("To do: handle this: ", errors)
+function displayServerErrors(errorJson) {
+    const errorDivision = document.querySelector(".error-division");
+    
+    if (!errorDivision) {
+        console.error("Error division not found.");
+        return;
+    }
+
+    let errors;
+    try {
+        errors = JSON.parse(errorJson);
+    } catch (e) {
+        console.error("Failed to parse error JSON:", e);
+        return;
+    }
+
+    errorDivision.textContent = '';
+    errorDivision.style = 'text-align: center; color: red;';
+
+    const addErrorMessage = (message) => {
+        let messageNode = document.createTextNode(message + "\n"); 
+        let breakNode = document.createElement("br");
+        errorDivision.appendChild(messageNode);
+        errorDivision.appendChild(breakNode);
+    };
+
+    for (let field in errors) {
+        if (errors.hasOwnProperty(field)) {
+            errors[field].forEach(error => {
+                if (field === '__all__') {
+                    addErrorMessage(error.message);
+                } else {
+                    addErrorMessage(`${field.charAt(0).toUpperCase() + field.slice(1)}: ${error.message}`);
+                }
+            });
+        }
+    }
 }
+
+
 
 function getCookie(name) {
     let cookieValue = null;
