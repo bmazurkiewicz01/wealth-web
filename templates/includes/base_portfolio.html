@@ -1,0 +1,29 @@
+{% extends 'includes/base.html' %}
+{% load static %}
+
+{% block pageStyle %}{% static 'css/portfolio.css' %}{% endblock %}
+{% block customScript %}{% static 'js/portfolio.js' %}{% endblock %}
+{% block title %}Portfolio - Wealth Web{% endblock %}
+
+{% block content %}
+    {% if user.is_authenticated %}
+        <div class="portfolio-header">
+            <div class="portfolio-navbar">
+                <ul>
+                    <div>
+                        <li><a href="/portfolio" class="portfolio-nav-item">Overview</a></li>
+                        <li><a href="/portfolio/reports" class="portfolio-nav-item">Reports</a></li>
+                        <li><a href="/portfolio/currency-converter" class="portfolio-nav-item">Currency Converter</a></li>
+                    </div>
+                    <div class="search-bar-container">
+                        <form action="/search" method="get">
+                            <input type="text" name="q" placeholder="Search for holdings">
+                            <button type="submit">Search</button>
+                        </form>
+                    </div>
+                </ul>
+            </div>
+        </div>
+        {% block portfolio-content %}{% endblock %}
+    {% endif %}
+{% endblock %}

@@ -1,11 +1,11 @@
 <!-- convert_currency.html -->
-{% extends "includes/base.html" %}
+{% extends 'includes/base_portfolio.html' %}
 {% load static %}
 
-{% block pageStyle %}{% static 'css/convert.css' %}{% endblock %}
-{% block title %}Home - Wealth Web{% endblock %}
+{% block additionalPageStyle %}{% static 'css/convert.css' %}{% endblock %}
+{% block title %}Currency Converter - Wealth Web{% endblock %}
 
-{% block content %}
+{% block portfolio-content %}
     <div class="converter">
         <h1>Currency Converter</h1>
         <form action="{% url 'convert_currency' %}" method="post" class="currency-converter-form">

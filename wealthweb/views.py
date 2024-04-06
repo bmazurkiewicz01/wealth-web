@@ -33,6 +33,10 @@ def home_view(request):
 def portfolio_view(request):
     return render(request, 'portfolio.html')
 
+@login_required
+def portfolio_reports_view(request):
+    return render(request, 'portfolio_reports.html')
+
 def about_view(request):
     return render(request, 'about.html')
 

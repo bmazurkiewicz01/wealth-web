@@ -12,8 +12,12 @@
                 <h1>Cultivate Your Wealth:</h1>
                 <h1>Expert Investment Portfolio Management</h1>
                 <div>
-                    <a class="grn-button" href="/about">Learn more about us</a>
-                    <a class="grn-button" href="/convert">Try it</a>
+                    {% if user.is_authenticated %}
+                        <a class="grn-button" href="/portfolio">Check your portfolio</a>
+                    {% else %}
+                        <a class="grn-button" href="/about">Learn more about us</a>
+                        <a class="grn-button" href="/register">Register now</a>
+                    {% endif %}
                 </div>
             </div>
             <img src="{% static 'images/hero-image.png' %}" alt="Hero image">
