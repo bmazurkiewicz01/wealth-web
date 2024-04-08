@@ -1,6 +1,8 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.models import User  
+from django.contrib.auth.models import User 
+from .models import Investment
+from .models import CURRENCY_SYMBOLS
 
 class UserRegistrationForm(UserCreationForm):
     email = forms.EmailField(label='Email', required=True)
@@ -9,6 +11,17 @@ class UserRegistrationForm(UserCreationForm):
         model = User
         fields = ['username', 'email', 'password1', 'password2']
 
+class InvestmentForm(forms.ModelForm):
+    currency = forms.ChoiceField(choices=CURRENCY_SYMBOLS)
+    class Meta:
+        model = Investment
+        fields = ['symbol', 'trade_date', 'quantity', 'currency', 'exchange_rate']
+        widgets = {
+            'trade_date': forms.DateInput(format=('%Y-%m-%d'), attrs={'type': 'date'}),
+            'symbol': forms.TextInput(attrs={'placeholder': 'Enter Symbol, e.g., BTC'}),
+            'quantity': forms.NumberInput(attrs={'step': 'any'}),
+            'exchange_rate': forms.NumberInput(attrs={'step': 'any'}),
+        }
 
 CURRENCY_CHOICES = [
     ('USD', 'US Dollar'),

@@ -3,9 +3,13 @@ from django.conf import settings
 from django.shortcuts import render, redirect
 from .forms import CurrencyConversionForm
 from .forms import UserRegistrationForm
+from .forms import InvestmentForm
+from .models import Investment
 from django.contrib.auth.views import LoginView
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
+from django.shortcuts import get_object_or_404, redirect
+from django.views.decorators.http import require_POST
 import requests
 
 
@@ -31,7 +35,35 @@ def home_view(request):
 
 @login_required
 def portfolio_view(request):
-    return render(request, 'portfolio.html')
+    if request.method == 'POST':
+        form = InvestmentForm(request.POST)
+        if form.is_valid():
+            new_investment = form.save(commit=False)
+            new_investment.user = request.user
+            new_investment.save()
+            return redirect('portfolio')
+    else:
+        form = InvestmentForm()
+
+    investments = Investment.objects.filter(user=request.user)
+
+    for investment in investments:
+        # current_price = get_current_price(investment.symbol)
+
+        # investment.current_price = current_price if current_price else 0
+        investment.total_value = (1 / investment.exchange_rate) * investment.quantity
+        # investment.return_value = investment.total_value - (investment.quantity * investment.exchange_rate)
+
+    return render(request, 'portfolio.html', {
+        'investments': investments,
+        'form': form,
+    })
+
+@require_POST
+def portfolio_delete_view(request, investment_id):
+    investment = get_object_or_404(Investment, pk=investment_id, user=request.user)
+    investment.delete()
+    return redirect('portfolio')  
 
 @login_required
 def portfolio_reports_view(request):
