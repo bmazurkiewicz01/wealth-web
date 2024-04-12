@@ -82,3 +82,212 @@
 .search-bar-container button:hover {
     background-color: #007AFF; 
 }
+
+.portfolio-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px 0px;
+}
+
+table {
+    width: 60%; 
+    border-collapse: collapse; 
+    margin-top: 20px; 
+}
+
+th {
+    background-color: #16213e; 
+    color: #ffffff; 
+    padding: 10px; 
+    text-align: left; 
+}
+
+td {
+    background-color: #0f3460; 
+    color: #e0e1dd; 
+    padding: 8px;
+    border-top: 1px solid #16213e; 
+}
+
+tr:hover {
+    background-color: #1a1a2e; 
+}
+
+.remove-button {
+    background-color: #e94560; 
+    color: white;
+    border: none; 
+    padding: 5px 10px;
+    border-radius: 4px; 
+    cursor: pointer;
+    transition: background-color 0.3s; 
+
+}
+
+.remove-button:hover {
+    background-color: #b5179e;  
+}
+
+#openModal {
+    background-color: #0A84FF; 
+    color: #FFFFFF;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: 20px;
+}
+
+#openModal:hover {
+    background-color: #007AFF; 
+}
+
+.modal {
+    display: none; 
+    position: fixed; 
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%; 
+    height: 100%; 
+    overflow: auto; 
+    background-color: rgb(0,0,0); 
+    background-color: rgba(0,0,0,0.4); 
+}
+
+.modal-content {
+    background-color: #101010;
+    margin: 10% auto; 
+    padding: 20px;
+    border: 1px solid #888;
+    border-radius: 16px;
+    width: 60%; 
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.5);
+}
+
+.close-div {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.modal-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.modal-form h3 {
+    text-align: center; 
+    margin-bottom: 20px; 
+}
+
+.modal-form form {
+    width: 60%; 
+}
+
+.modal-form .form-group {
+    margin-bottom: 15px; 
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.modal-form label {
+    display: block; 
+    margin-bottom: 5px; 
+}
+
+.modal-form input[type="text"],
+.modal-form input[type="number"],
+.modal-form select,
+.modal-form textarea,
+.modal-form input[type="submit"] {
+    width: 80%; 
+    padding: 10px; 
+    margin-bottom: 10px;
+    border-radius: 4px; 
+    border: 1px solid #333;
+    background-color: #222; 
+    color: #fff; 
+    box-sizing:content-box;
+}
+
+.modal-form input[type="date"] {
+    color: #fff;
+    background-color: #333; 
+    border: 1px solid #555;
+    padding: 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 80%;
+}
+
+.modal-form input[type="date"]:hover {
+    background-color: #444;
+}
+
+.modal-form input[type="date"]:focus {
+    outline: none;
+    border-color: #777;
+    background-color: #222;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(1); 
+}
+
+input[type="date"]::-webkit-datetime-edit { 
+    color: white;
+    background-color: #333;
+}
+
+input[type="date"]::-webkit-inner-spin-button { 
+    display: none;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.submit-div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-form input[type="submit"] {
+    background-color: #1a75ff;
+    width: 50%; 
+    cursor: pointer; 
+}
+
+.modal-form input[type="submit"]:hover {
+    background-color: #0047b3; 
+}
+
+.modal-form .error {
+    color: #e94560; 
+}
+
+.modal-form .form-text {
+    color: #ccc; 
+}
+
+.close {
+    color: #aaa;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: white;
+    text-decoration: none;
+    cursor: pointer;
+}

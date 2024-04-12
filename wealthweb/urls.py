@@ -30,7 +30,6 @@ urlpatterns = [
     path('login/', views.LoginView.as_view(), name='login'),
     path('register/', views.register_view, name='register'),
     path('logout/', LogoutView.as_view(), name='logout'),
-    path('convert/', views.convert_currency_view, name='convert_currency'),
 
     path('admin/', admin.site.urls),
     path('btcusd/', views.get_bitcoin_price, name='btcusd'),

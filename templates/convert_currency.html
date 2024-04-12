@@ -8,7 +8,7 @@
 {% block portfolio-content %}
     <div class="converter">
         <h1>Currency Converter</h1>
-        <form action="{% url 'convert_currency' %}" method="post" class="currency-converter-form">
+        <form action="{% url 'currency-converter' %}" method="post" class="currency-converter-form">
             {% csrf_token %}
             <div class="form-group">
                 <div class="input-group">

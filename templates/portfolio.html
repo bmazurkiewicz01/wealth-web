@@ -2,9 +2,9 @@
 {% load static %}
 
 {% block portfolio-content %}
-<div style="display: flex; justify-content: center; flex-direction: column; align-items: center;">
+<div class="portfolio-container">
     <h1>Hello, {{ user.username }}!</h1>
-    <h2>This is your investment portfolio</h2>
+    <h2>Here are your investments:</h2>
 
     <table>
         <thead>
@@ -12,6 +12,7 @@
                 <th>Symbol</th>
                 <th>Quantity</th>
                 <th>Value</th>
+                <th>Action</th>
             </tr>
         </thead>
         <tbody>
@@ -24,7 +25,7 @@
                 <td>
                     <form action="{% url 'portfolio-delete-investment' investment.id %}" method="post" style="display: inline;">
                         {% csrf_token %}
-                        <input type="submit" value="Remove" onclick="return confirm('Are you sure?');">
+                        <input class="remove-button" type="submit" value="Remove" onclick="return confirm('Are you sure?');">
                     </form>
                 </td>
             </tr>
@@ -36,14 +37,37 @@
         </tbody>
     </table>
 
-<div>
-    <h3>Add a New Investment</h3>
-    <form method="post" action="">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <input type="submit" value="Save Trade">
-        <input type="submit" name="_addanother" value="Save & Add Another">
-    </form>
+<button id="openModal">Add New Investment</button>
+
+<div id="myModal" class="modal">
+    <div class="modal-content">
+        <div class="close-div">
+            <span class="close">&times;</span>
+        </div>
+        <div class="modal-form">
+            <h3>Add a New Investment</h3>
+            <form method="post" action="">
+                {% csrf_token %}
+                {% for field in form %}
+                <div class="form-group">
+                    <div style="width: 80%;">
+                    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                    </div>
+                    {{ field }}
+                    {% if field.help_text %}
+                        <small class="form-text text-muted">{{ field.help_text }}</small>
+                    {% endif %}
+                    {% for error in field.errors %}
+                        <div class="error">{{ error }}</div>
+                    {% endfor %}
+                </div>
+                {% endfor %}
+                <div class="submit-div">
+                    <input type="submit" value="Save Trade">
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
 
 </div>
