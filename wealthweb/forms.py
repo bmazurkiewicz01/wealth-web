@@ -12,7 +12,7 @@ class UserRegistrationForm(UserCreationForm):
         fields = ['username', 'email', 'password1', 'password2']
 
 class InvestmentForm(forms.ModelForm):
-    currency = forms.ChoiceField(choices=CURRENCY_SYMBOLS)
+    currency = forms.ChoiceField(choices=[(x, x) for x in CURRENCY_SYMBOLS])
     class Meta:
         model = Investment
         fields = ['symbol', 'trade_date', 'quantity', 'currency', 'exchange_rate']
