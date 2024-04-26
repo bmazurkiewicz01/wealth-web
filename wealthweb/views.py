@@ -66,6 +66,41 @@ def portfolio_delete_view(request, investment_id):
     return redirect('portfolio')  
 
 @login_required
+def get_exchange_rate_view(request):
+    symbol = request.GET.get('symbol', None)
+    if symbol:
+        api_key = settings.STOCK_API_KEY
+        url = f'https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol={symbol}&apikey={api_key}'
+        response = requests.get(url)
+        data = response.json()
+        print(data)
+        
+        if 'Global Quote' in data:
+            exchange_rate = data['Global Quote']['05. price']
+            return JsonResponse({'exchangeRate': str(1 / float(exchange_rate))})
+        else:
+            return JsonResponse({'error': 'Exchange rate not found'}, status=404)
+    else:
+        return JsonResponse({'error': 'Symbol parameter is required'}, status=400)
+    
+@login_required
+def get_stock_symbol_view(request):
+    symbol = request.GET.get('symbol', None)
+    if symbol:
+        api_key = settings.STOCK_API_KEY  
+        url = f'https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords={symbol}&apikey={api_key}'
+        response = requests.get(url)
+        data = response.json()
+        
+        if 'bestMatches' in data:
+            symbols = [item['1. symbol'] for item in data['bestMatches']]
+            return JsonResponse({'symbols': symbols})
+        else:
+            return JsonResponse({'error': 'Symbols not found'}, status=404)
+    else:
+        return JsonResponse({'error': 'Symbol parameter is required'}, status=400)
+
+@login_required
 def portfolio_reports_view(request):
     return render(request, 'portfolio_reports.html')
 

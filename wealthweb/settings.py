@@ -16,6 +16,7 @@ import os
 
 load_dotenv() 
 EXCHANGE_RATE_API_KEY = os.getenv('EXCHANGE_RATE_API_KEY')
+STOCK_API_KEY = os.getenv('STOCK_API_KEY')
 
 LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'home'
