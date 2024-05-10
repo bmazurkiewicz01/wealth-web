@@ -10,6 +10,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
 from django.shortcuts import get_object_or_404, redirect
 from django.views.decorators.http import require_POST
+from datetime import datetime
 import requests
 
 
@@ -48,26 +49,19 @@ def portfolio_view(request):
     investments = Investment.objects.filter(user=request.user)
 
     for investment in investments:
-        # current_price = get_current_price(investment.symbol)
+        current_price = get_current_price(investment.symbol)
 
-        # investment.current_price = current_price if current_price else 0
+        investment.current_price = float(current_price) * float(investment.quantity) if current_price else 0
         investment.total_value = (1 / investment.exchange_rate) * investment.quantity
-        # investment.return_value = investment.total_value - (investment.quantity * investment.exchange_rate)
+        investment.return_value = float(investment.current_price) - float(investment.total_value)
 
     return render(request, 'portfolio.html', {
         'investments': investments,
         'form': form,
     })
 
-@require_POST
-def portfolio_delete_view(request, investment_id):
-    investment = get_object_or_404(Investment, pk=investment_id, user=request.user)
-    investment.delete()
-    return redirect('portfolio')  
-
-@login_required
-def get_exchange_rate_view(request):
-    symbol = request.GET.get('symbol', None)
+def get_current_price(symbol):
+    print("Getting current price for symbol:", symbol)
     if symbol:
         api_key = settings.STOCK_API_KEY
         url = f'https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol={symbol}&apikey={api_key}'
@@ -76,12 +70,41 @@ def get_exchange_rate_view(request):
         print(data)
         
         if 'Global Quote' in data:
-            exchange_rate = data['Global Quote']['05. price']
-            return JsonResponse({'exchangeRate': str(1 / float(exchange_rate))})
+            price = data['Global Quote']['05. price']
+            return float(price) 
         else:
-            return JsonResponse({'error': 'Exchange rate not found'}, status=404)
+            return None  
     else:
-        return JsonResponse({'error': 'Symbol parameter is required'}, status=400)
+        return None  
+
+@require_POST
+def portfolio_delete_view(request, investment_id):
+    investment = get_object_or_404(Investment, pk=investment_id, user=request.user)
+    investment.delete()
+    return redirect('portfolio')  
+    
+@login_required
+def get_exchange_rate_view(request):
+    symbol = request.GET.get('symbol', None)
+    date = request.GET.get('date', None)  # Add date parameter
+
+    if symbol and date:
+        api_key = settings.STOCK_API_KEY
+        url = f'https://www.alphavantage.co/query?function=TIME_SERIES_WEEKLY&symbol={symbol}&apikey={api_key}'
+        response = requests.get(url)
+        data = response.json()
+
+        if 'Weekly Time Series' in data:
+            weekly_data = data['Weekly Time Series']
+            available_dates = list(weekly_data.keys())
+            closest_date = min(available_dates, key=lambda x: abs(datetime.strptime(x, '%Y-%m-%d') - datetime.strptime(date, '%Y-%m-%d')))
+            
+            exchange_rate = weekly_data[closest_date]['4. close']
+            return JsonResponse({'exchangeRate': str(1 / float(exchange_rate)), 'date': closest_date})
+        else:
+            return JsonResponse({'error': 'Weekly time series data not found'}, status=404)
+    else:
+        return JsonResponse({'error': 'Symbol and date parameters are required'}, status=400)
     
 @login_required
 def get_stock_symbol_view(request):

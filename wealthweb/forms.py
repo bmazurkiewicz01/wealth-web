@@ -19,7 +19,7 @@ class InvestmentForm(forms.ModelForm):
         fields = ['symbol', 'trade_date', 'quantity', 'currency', 'exchange_rate']
         widgets = {
             'trade_date': forms.DateInput(format=('%Y-%m-%d'), attrs={'type': 'date'}),
-            'symbol': forms.TextInput(attrs={'placeholder': 'Enter Symbol, e.g., BTC', 'id': '{{ form.prefix }}-symbol'}),
+            'symbol': forms.TextInput(attrs={'placeholder': 'Enter Symbol, e.g., BTC', 'id': '{{ form.prefix }}-symbol', 'list': 'symbols'}),
             'quantity': forms.NumberInput(attrs={'step': 'any'}),
             'exchange_rate': forms.NumberInput(attrs={'step': 'any', 'id': '{{ form.prefix }}-exchange_rate'}),
         }

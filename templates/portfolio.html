@@ -11,7 +11,8 @@
             <tr>
                 <th>Symbol</th>
                 <th>Quantity</th>
-                <th>Value</th>
+                <th>Current price</th>
+                <th>Return value</th>
                 <th>Action</th>
             </tr>
         </thead>
@@ -20,8 +21,8 @@
             <tr>
                 <td>{{ investment.symbol }}</td>
                 <td>{{ investment.quantity }}</td>
-                <td>{{ investment.currency_symbol }}{{ investment.total_value|floatformat:2 }}</td>
-                <!-- <td>${{ investment.return_value|floatformat:2 }}</td> -->
+                <td>{{ investment.currency_symbol }}{{ investment.current_price|floatformat:2 }}</td>
+                <td>${{ investment.return_value|floatformat:2 }}</td>
                 <td>
                     <form action="{% url 'portfolio-delete-investment' investment.id %}" method="post" style="display: inline;">
                         {% csrf_token %}
@@ -62,6 +63,9 @@
                     {% endfor %}
                 </div>
                 {% endfor %}
+                <datalist id="symbols">
+                    <!-- this will be populated using js script -->
+                </datalist>
                 <div class="submit-div">
                     <input type="submit" value="Save Trade">
                 </div>
