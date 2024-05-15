@@ -25,33 +25,6 @@ window.onclick = function(event) {
     }
 }
 
-// document.addEventListener('DOMContentLoaded', function () {
-//     const symbolInput = document.getElementById('{{ form.prefix }}-symbol');
-//     const exchangeRateInput = document.getElementById('{{ form.prefix }}-exchange_rate');
-
-//     symbolInput.addEventListener('blur', function () {
-//         const symbol = this.value.trim(); 
-//         if (symbol) {
-//             fetchExchangeRate(symbol);
-//         }
-//     });
-
-//     function fetchExchangeRate(symbol) {
-//         fetch(`/api/exchange-rate?symbol=${symbol}`)
-//             .then(response => response.json())
-//             .then(data => {
-//                 if (data.exchangeRate) {
-//                     exchangeRateInput.value = parseFloat(data.exchangeRate).toFixed(14);
-//                 } else {
-//                     console.error('Exchange rate not found');
-//                 }
-//             })
-//             .catch(error => {
-//                 console.error('Error fetching exchange rate:', error);
-//             });
-//     }
-// });
-
 document.addEventListener('DOMContentLoaded', function () {
     const symbolInput = document.getElementById('{{ form.prefix }}-symbol');
     const exchangeRateInput = document.getElementById('{{ form.prefix }}-exchange_rate');
