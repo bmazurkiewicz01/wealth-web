@@ -50,9 +50,18 @@ def portfolio_view(request):
 
     investments = Investment.objects.filter(user=request.user)
 
+    refresh_prices = bool(request.GET.get('refresh_prices', None))
+    print("Refresh prices:", refresh_prices)
+
     for investment in investments:
-        # current_price = get_current_price(investment.symbol)
-        current_price = investment.current_price
+        if refresh_prices:
+            current_price = get_current_price(investment.symbol)
+            print("Current price:", current_price)
+            if current_price:
+                investment.current_price = float(current_price)
+                investment.save() 
+        else:
+            current_price = investment.current_price
 
         investment.current_price = float(current_price) * float(investment.quantity) if current_price else 0
         investment.total_value = (1 / investment.exchange_rate) * investment.quantity
@@ -73,13 +82,11 @@ def get_current_price(symbol, currency='USD'):
         if 'Global Quote' in data:
             price = data['Global Quote']['05. price']
             if currency and currency != 'USD':
-                print("Price in USD:", price)
                 api_key = settings.EXCHANGE_RATE_API_KEY
                 url = f"https://v6.exchangerate-api.com/v6/{api_key}/pair/USD/{currency}/1"
                 response = requests.get(url)
                 data = response.json()
                 price = float(price) * float(data.get('conversion_result', 1))
-                print("Price in", currency, ":", price)
 
             return float(price) 
         else:

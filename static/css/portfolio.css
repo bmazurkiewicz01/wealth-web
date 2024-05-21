@@ -138,7 +138,7 @@ tr:hover {
     border-radius: 4px;
     cursor: pointer;
     transition: background-color 0.3s;
-    margin-top: 20px;
+    width: 170px;
 }
 
 #openModal:hover {
@@ -321,4 +321,27 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     100% {
         transform: rotate(1turn);
     }
+}
+
+.buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    gap: 10px;
+}
+
+#refresh {
+    background-color: #0A84FF; 
+    color: #FFFFFF;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 170px;
+    transition: background-color 0.3s;
+}
+
+#refresh:hover {
+    background-color: #1983f4; 
 }

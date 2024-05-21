@@ -41,6 +41,12 @@ document.addEventListener('DOMContentLoaded', function () {
         loader.classList.remove('loader-hidden');
     });
 
+    const refreshBtn = document.querySelector('#refresh');
+    refreshBtn.addEventListener('click', async function() {
+        await fetch('/portfolio/?refresh_prices=True');
+        window.location.reload();
+    });
+
     symbolInput.addEventListener('blur', function () {
         const symbol = this.value.trim(); 
         const currency = currencyInput.value.trim();
