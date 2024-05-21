@@ -291,3 +291,34 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     text-decoration: none;
     cursor: pointer;
 }
+
+.loader {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: opacity 0.75s, visibility 0.75s;
+}
+
+.loader-hidden {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.loader::after {
+    content: "";
+    width: 35px;
+    height: 35px;
+    border: 15px solid #f3f3f3;
+    border-top-color: #7449F5;
+    border-radius: 50%;
+    animation: loading 0.75s ease infinite;
+}
+
+@keyframes loading {
+    0% {
+        transform: rotate(0turn);
+    }
+    100% {
+        transform: rotate(1turn);
+    }
+}

@@ -11,6 +11,8 @@ const btn = document.getElementById("openModal");
 
 const span = document.getElementsByClassName("close")[0];
 
+
+
 btn.onclick = function() {
     modal.style.display = "block";
 }
@@ -30,6 +32,14 @@ document.addEventListener('DOMContentLoaded', function () {
     const exchangeRateInput = document.getElementById('{{ form.prefix }}-exchange_rate');
     const dateInput = document.getElementById('id_trade_date'); 
     const currencyInput = document.getElementById('id_currency');
+    const loader = document.querySelector('.loader');
+    loader.classList.add('loader-hidden');
+
+    const submitBtn = document.querySelector('#submit-investment-btn');
+    submitBtn.addEventListener('click', function() {
+        submitBtn.style.display = 'none';
+        loader.classList.remove('loader-hidden');
+    });
 
     symbolInput.addEventListener('blur', function () {
         const symbol = this.value.trim(); 

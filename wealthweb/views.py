@@ -40,7 +40,8 @@ def portfolio_view(request):
         form = InvestmentForm(request.POST)
         if form.is_valid():
             new_investment = form.save(commit=False)
-            new_investment.current_price = get_current_price(new_investment.symbol, new_investment.currency)
+            current_price = get_current_price(new_investment.symbol, new_investment.currency)
+            new_investment.current_price = current_price if current_price else 0
             new_investment.user = request.user
             new_investment.save()
             return redirect('portfolio')
