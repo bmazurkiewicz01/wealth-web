@@ -22,7 +22,7 @@
                 <td>{{ investment.symbol }}</td>
                 <td>{{ investment.quantity }}</td>
                 <td>{{ investment.currency_symbol }}{{ investment.current_price|floatformat:2 }}</td>
-                <td>${{ investment.return_value|floatformat:2 }}</td>
+                <td>{{ investment.currency_symbol }}{{ investment.return_value|floatformat:2 }}</td>
                 <td>
                     <form action="{% url 'portfolio-delete-investment' investment.id %}" method="post" style="display: inline;">
                         {% csrf_token %}

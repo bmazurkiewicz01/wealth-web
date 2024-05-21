@@ -29,24 +29,27 @@ document.addEventListener('DOMContentLoaded', function () {
     const symbolInput = document.getElementById('{{ form.prefix }}-symbol');
     const exchangeRateInput = document.getElementById('{{ form.prefix }}-exchange_rate');
     const dateInput = document.getElementById('id_trade_date'); 
+    const currencyInput = document.getElementById('id_currency');
 
     symbolInput.addEventListener('blur', function () {
         const symbol = this.value.trim(); 
+        const currency = currencyInput.value.trim();
         if (symbol) {
-            fetchExchangeRate(symbol, dateInput.value);
+            fetchExchangeRate(symbol, dateInput.value, currency);
         }
     });
 
     dateInput.addEventListener('input', function () {
         const symbol = symbolInput.value.trim();
         const date = this.value.trim();
+        const currency = currencyInput.value.trim();
         if (symbol && date) {
-            fetchExchangeRate(symbol, date);
+            fetchExchangeRate(symbol, date, currency);
         }
     });
 
-    function fetchExchangeRate(symbol, date) {
-        fetch(`/api/exchange-rate?symbol=${symbol}&date=${date}`)
+    function fetchExchangeRate(symbol, date, currency) {
+        fetch(`/api/exchange-rate?symbol=${symbol}&date=${date}&currency=${currency}`)
             .then(response => response.json())
             .then(data => {
                 if (data.exchangeRate) {

@@ -40,7 +40,7 @@ def portfolio_view(request):
         form = InvestmentForm(request.POST)
         if form.is_valid():
             new_investment = form.save(commit=False)
-            new_investment.current_price = get_current_price(new_investment.symbol)
+            new_investment.current_price = get_current_price(new_investment.symbol, new_investment.currency)
             new_investment.user = request.user
             new_investment.save()
             return redirect('portfolio')
@@ -62,17 +62,24 @@ def portfolio_view(request):
         'form': form,
     })
 
-def get_current_price(symbol):
-    print("Getting current price for symbol:", symbol)
+def get_current_price(symbol, currency='USD'):
     if symbol:
         api_key = settings.STOCK_API_KEY
         url = f'https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol={symbol}&apikey={api_key}'
         response = requests.get(url)
         data = response.json()
-        print(data)
         
         if 'Global Quote' in data:
             price = data['Global Quote']['05. price']
+            if currency and currency != 'USD':
+                print("Price in USD:", price)
+                api_key = settings.EXCHANGE_RATE_API_KEY
+                url = f"https://v6.exchangerate-api.com/v6/{api_key}/pair/USD/{currency}/1"
+                response = requests.get(url)
+                data = response.json()
+                price = float(price) * float(data.get('conversion_result', 1))
+                print("Price in", currency, ":", price)
+
             return float(price) 
         else:
             return None  
@@ -88,7 +95,8 @@ def portfolio_delete_view(request, investment_id):
 @login_required
 def get_exchange_rate_view(request):
     symbol = request.GET.get('symbol', None)
-    date = request.GET.get('date', None)  # Add date parameter
+    date = request.GET.get('date', None)
+    currency = request.GET.get('currency', None)
 
     if symbol and date:
         api_key = settings.STOCK_API_KEY
@@ -102,6 +110,15 @@ def get_exchange_rate_view(request):
             closest_date = min(available_dates, key=lambda x: abs(datetime.strptime(x, '%Y-%m-%d') - datetime.strptime(date, '%Y-%m-%d')))
             
             exchange_rate = weekly_data[closest_date]['4. close']
+            if currency and currency != 'USD':
+                print("Exchange rate in USD:", exchange_rate)
+                api_key = settings.EXCHANGE_RATE_API_KEY
+                url = f"https://v6.exchangerate-api.com/v6/{api_key}/pair/USD/{currency}/1"
+                response = requests.get(url)
+                data = response.json()
+                exchange_rate = float(exchange_rate) * float(data.get('conversion_result', 1))
+                print("Exchange rate in", currency, ":", exchange_rate)
+
             return JsonResponse({'exchangeRate': str(1 / float(exchange_rate)), 'date': closest_date})
         else:
             return JsonResponse({'error': 'Weekly time series data not found'}, status=404)
