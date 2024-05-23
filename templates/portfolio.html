@@ -1,5 +1,6 @@
 {% extends 'includes/base_portfolio.html' %}
 {% load static %}
+{% block customScript %}{% static 'js/portfolio.js' %}{% endblock %}
 
 {% block portfolio-content %}
 <div class="portfolio-container">
@@ -50,7 +51,7 @@
         </div>
         <div class="modal-form">
             <h3>Add a New Investment</h3>
-            <form method="post" action="">
+            <form id="add-investment-form" method="post" action="">
                 {% csrf_token %}
                 {% for field in form %}
                 <div class="form-group">

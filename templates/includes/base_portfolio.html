@@ -2,7 +2,6 @@
 {% load static %}
 
 {% block pageStyle %}{% static 'css/portfolio.css' %}{% endblock %}
-{% block customScript %}{% static 'js/portfolio.js' %}{% endblock %}
 {% block title %}Portfolio - Wealth Web{% endblock %}
 
 {% block content %}
@@ -15,7 +14,7 @@
                         <li><a href="/portfolio/reports" class="portfolio-nav-item">Reports</a></li>
                         <li><a href="/portfolio/currency-converter" class="portfolio-nav-item">Currency Converter</a></li>
                     </div>
-                    <div class="search-bar-container">
+                    <div class="search-bar-container" style="display: none;">
                         <form action="/search" method="get">
                             <input type="text" name="q" placeholder="Search for holdings">
                             <button type="submit">Search</button>

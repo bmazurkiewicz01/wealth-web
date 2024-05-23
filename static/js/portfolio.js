@@ -28,6 +28,10 @@ window.onclick = function(event) {
 }
 
 document.addEventListener('DOMContentLoaded', function () {
+    const searchDiv = document.querySelector('.search-bar-container');
+    searchDiv.style.display = 'block';
+
+    const addInvestmentForm = document.getElementById('add-investment-form');
     const symbolInput = document.getElementById('{{ form.prefix }}-symbol');
     const exchangeRateInput = document.getElementById('{{ form.prefix }}-exchange_rate');
     const dateInput = document.getElementById('id_trade_date'); 
@@ -37,8 +41,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const submitBtn = document.querySelector('#submit-investment-btn');
     submitBtn.addEventListener('click', function() {
-        submitBtn.style.display = 'none';
-        loader.classList.remove('loader-hidden');
+        if (addInvestmentForm.checkValidity()) {
+            submitBtn.style.display = 'none';
+            loader.classList.remove('loader-hidden');
+        }
     });
 
     const refreshBtn = document.querySelector('#refresh');
