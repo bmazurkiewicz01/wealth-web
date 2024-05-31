@@ -12,6 +12,9 @@ from django.shortcuts import get_object_or_404, redirect
 from django.views.decorators.http import require_POST
 from datetime import datetime
 import requests
+import matplotlib.pyplot as plt
+import io
+import urllib, base64
 
 
 class LoginView(LoginView):
@@ -150,9 +153,47 @@ def get_stock_symbol_view(request):
     else:
         return JsonResponse({'error': 'Symbol parameter is required'}, status=400)
 
+def generate_investment_quantity_plot(investments):
+    symbols = [investment.symbol for investment in investments]
+    quantities = [investment.quantity for investment in investments]
+
+    fig, ax = plt.subplots()
+    ax.bar(symbols, quantities)
+    ax.set_xlabel('Symbols')
+    ax.set_ylabel('Quantities')
+    ax.set_title('Investment Quantities per Symbol')
+
+    buf = io.BytesIO()
+    plt.savefig(buf, format='png')
+    buf.seek(0)
+    string = base64.b64encode(buf.read())
+    uri = urllib.parse.quote(string)
+    return uri
+
+def generate_investment_return_plot(investments):
+    symbols = [investment.symbol for investment in investments]
+    return_values = [float(investment.current_price) - float((1 / investment.exchange_rate) * investment.quantity) for investment in investments]
+    colors = ['red' if value < 0 else 'green' for value in return_values]
+
+    fig, ax = plt.subplots()
+    ax.bar(symbols, return_values, color=colors)
+    ax.set_xlabel('Symbols')
+    ax.set_ylabel('Return Value')
+    ax.set_title('Return Value per Investment')
+
+    buf = io.BytesIO()
+    plt.savefig(buf, format='png')
+    buf.seek(0)
+    string = base64.b64encode(buf.read())
+    uri = urllib.parse.quote(string)
+    return uri
+
 @login_required
 def portfolio_reports_view(request):
-    return render(request, 'portfolio_reports.html')
+    investments = Investment.objects.filter(user=request.user)
+    quantity_plot = generate_investment_quantity_plot(investments)
+    return_plot = generate_investment_return_plot(investments)
+    return render(request, 'portfolio_reports.html', {'quantity_plot': quantity_plot, 'return_plot': return_plot})
 
 def about_view(request):
     return render(request, 'about.html')

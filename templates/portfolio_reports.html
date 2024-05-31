@@ -3,3 +3,13 @@
 
 {% block title %}Reports - Wealth Web{% endblock %}
 {% block customScript %}{% static 'js/portfolio-common.js' %}{% endblock %}
+
+{% block portfolio-content %}
+<div class="report-container">
+    <h1>Investment Reports</h1>
+    <div>
+        <img src="data:image/png;base64,{{ quantity_plot }}" alt="Quantity investment plot">
+        <img src="data:image/png;base64,{{ return_plot }}" alt="Return invesment plot">
+    </div>
+</div>
+{% endblock %}
