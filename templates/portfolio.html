@@ -7,7 +7,7 @@
     <h1>Hello, {{ user.username }}!</h1>
     <h2>Here are your investments:</h2>
 
-    <table>
+    <table id="investment-table">
         <thead>
             <tr>
                 <th>Symbol</th>
@@ -19,8 +19,8 @@
         </thead>
         <tbody>
             {% for investment in investments %}
-            <tr>
-                <td>{{ investment.symbol }}</td>
+            <tr class="investment-row">
+                <td class="investment-symbol">{{ investment.symbol }}</td>
                 <td>{{ investment.quantity }}</td>
                 <td>{{ investment.currency_symbol }}{{ investment.current_price|floatformat:2 }}</td>
                 <td>{{ investment.currency_symbol }}{{ investment.return_value|floatformat:2 }}</td>

@@ -346,3 +346,32 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 #refresh:hover {
     background-color: #1983f4; 
 }
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes fadeOut {
+    from { opacity: 1; }
+    to { opacity: 0; }
+}
+
+.investment-row {
+    display: table-row; 
+    animation-duration: 1s;
+    animation-fill-mode: forwards; 
+}
+
+.investment-row.fade-in {
+    animation-name: fadeIn;
+    display: table-row !important;
+}
+
+.investment-row.fade-out {
+    animation-name: fadeOut;
+}
+
+.hidden {
+    display: none !important;
+}

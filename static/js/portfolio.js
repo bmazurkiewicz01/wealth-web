@@ -115,3 +115,41 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 });
 
+document.addEventListener('DOMContentLoaded', function() {
+    const searchInput = document.getElementById('search-input');
+    const searchButton = document.getElementById('search-button');
+    const table = document.getElementById('investment-table');
+    const rows = table.getElementsByClassName('investment-row');
+
+    function searchInvestments() {
+        const filter = searchInput.value.toUpperCase();
+        for (let i = 0; i < rows.length; i++) {
+            const symbol = rows[i].getElementsByClassName('investment-symbol')[0];
+            if (symbol) {
+                const txtValue = symbol.textContent || symbol.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    rows[i].classList.remove('fade-out', 'hidden');
+                    rows[i].classList.add('fade-in');
+                } else {
+                    rows[i].classList.remove('fade-in');
+                    rows[i].classList.add('fade-out');
+                }
+            }
+        }
+    }
+
+    searchButton.addEventListener('click', searchInvestments);
+    searchInput.addEventListener('keyup', function(event) {
+        if (event.key === 'Enter') {
+            searchInvestments();
+        }
+    });
+
+    for (let i = 0; i < rows.length; i++) {
+        rows[i].addEventListener('animationend', function(event) {
+            if (event.animationName === 'fadeOut') {
+                rows[i].classList.add('hidden');
+            }
+        });
+    }
+});
